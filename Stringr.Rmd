@@ -1,0 +1,457 @@
+---
+title: "Stringr"
+author: "Juan Garcia Ruiz"
+date: "24 de marzo de 2019"
+output:
+  pdf_document:
+    fig_caption: yes
+    number_sections: yes
+  word_document:
+    toc: yes
+  html_document: 
+    number_sections: yes
+    theme: darkly
+    toc: yes
+---
+
+\newpage
+\tableofcontents
+\newpage
+
+
+```{r stringr_import, message = FALSE, echo = FALSE, warning = FALSE}
+library(stringr)
+library(tinytex)
+```
+
+# Stringr, ¿qué es?
+
+Stringr es un conjunto de evoltorios **consistentes**, **simples** y **facil de usar** en torno al fantastico paquete [stringi](https://cran.r-project.org/web/packages/stringi/index.html). Todas las funciones y nombres de argumentos (también sus posiciones) son consistentes, todas las funciones tratan los valores NA's y vectores de tamaño 0 de la misma manera, y la salida de una función es facil de pasar como parametro de entrada de otra función distinta.
+
+Como hemos señalado, stringr esta construido sobre [stringi](https://cran.r-project.org/web/packages/stringi/index.html), el cual usa la libreria de C [ICU](http://site.icu-project.org) que provee implementaciones rapidas y adecuadas de manipulaciones comunes de strings. Stringr se concentra en las funciones mas importantes y comúnmente usadas mientras que stringi proporciona un conjunto que cubre todo lo que uno se pueda imaginar.
+
+\newpage
+
+# Funciones de Stringr
+
+A continuación, haremos un pequeño repaso de las funciones mas importantes que nos podemos encontrar en este paquete.
+
+\pagebreaker
+
+## str_to_upper
+
+### Descripción
+
+Convierte todo el string en mayúsculas. 
+
+### Uso
+
+**str_to_upper(string, locale = "es")**
+
+### Ejemplo de uso
+
+```{r str_to_upper}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_to_upper!")
+  
+  str_to_upper(x, locale = "es")
+```
+
+\pagebreaker
+
+## str_to_lower
+
+### Descripción
+
+Convierte todo el string en minúsculas.
+
+### Uso
+
+**str_to_lower(string, locale = "es")**
+
+### Ejemplo de uso
+
+```{r str_to_lower}
+  x <- c("HOLA", "ESTO", "ES", "UN", "EJEMPLO", "DE", "STR_TO_LOWER!")
+  
+  str_to_lower(x, locale = "es")
+```
+
+\pagebreaker
+
+## str_to_title
+
+### Descripción
+
+Convierte la primera latra del string en mayúscula. 
+
+### Uso
+
+**str_to_title(string, locale = "es")**
+
+### Ejemplo de uso
+
+```{r str_to_title}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_to_title!")
+  
+  str_to_title(x, locale = "es")
+```
+
+\pagebreaker
+
+## str_c
+
+### Descripción
+
+Une multiples strings en un único string. Se usa *collapse* de manera opcional para aplicarle un separador entre todos los strings del vector (si se aplica **NULL** no se unen los distintos string).
+
+### Uso
+
+**str_c(string, collapse = NULL)**
+
+### Ejemplo de uso
+
+```{r str_c}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_c!")
+  
+  str_c(x, collapse = " ")
+  str_c(x, collapse = NULL)
+```
+
+\pagebreaker
+
+## str_count
+
+### Descripción
+
+Cuenta el número de coincidencias de un determinado patrón en un string.
+
+### Uso
+
+**str_count(string, pattern = "")**
+
+### Ejemplo de uso
+
+```{r str_count}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_count!")
+  
+  str_count(x, "e")
+```
+
+\pagebreaker
+
+## str_detect
+
+### Descripción
+
+Detecta la presencia o ausencia (si marcamos el parámetro *negate* como **TRUE**) de un patron en un string.
+
+### Uso
+
+**str_detect(string, pattern, negate = FALSE)**
+
+### Ejemplo de uso
+
+```{r str_detect}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_detect!")
+  
+  str_detect(x, "e")
+  str_detect(x, "e", negate = TRUE)
+```
+
+\pagebreaker
+
+## str_dup
+
+### Descripción
+
+Duplica y concadena strings. Como argumentos se introduce el string y el numero de veces que se quiere duplicar cada string.
+
+### Uso
+
+**str_dup(string, times)**
+
+### Ejemplo de uso
+
+```{r str_dup}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_dup!")
+  
+  str_dup(x, 2)
+  str_dup(x, 1:7)
+```
+
+\pagebreaker
+
+## str_extract
+
+### Descripción
+
+Extrae patrones a partir de un string. Si el parametro *simplify* esta marcado como **FALSE** (por defecto), se devolverá una lista de vectores de caracteres. En caso contrario, se devuelve una matriz de caracteres.
+
+### Uso
+
+**str_extract(string, pattern)**
+**str_extract_all(string, pattern, simplify = FALSE)**
+
+### Ejemplo de uso
+
+```{r str_extract}
+  x <- c("HoLa", "esTo", "es", "UN", "eJemPLo", "dE", "str_extract!")
+  
+  str_extract(x, "[a-z]+")
+  str_extract_all(x, "[a-z]+", simplify = TRUE)
+```
+
+\pagebreaker
+
+## str_length
+
+### Descripción
+
+Devuelve la longitud de un string. Tecnicamente, devuelve el numero de *code points* de un string. Este suele corresponder a un caracter pero no siempre.
+
+### Uso
+
+**str_length(string)**
+
+### Ejemplo de uso
+
+```{r str_length}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_length!")
+  
+  str_length(x)
+```
+
+\pagebreaker
+
+## str_locate
+
+### Descripción
+
+Devuelve la longitud de un string. Tecnicamente, devuelve el numero de *code points* de un string. Este suele corresponder a un caracter pero no siempre.
+
+### Uso
+
+**str_locate(string, pattern)**
+**str_locate_all(string, pattern)**
+
+### Ejemplo de uso
+
+```{r str_locate}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_locate!")
+  
+  str_locate(x, "es")
+  str_locate_all(x, "e")
+```
+
+\pagebreaker
+
+## str_match
+
+### Descripción
+
+Extrae grupos de un string según un determinado patrón
+
+### Uso
+
+**str_match(string, pattern)**
+**str_match_all(string, pattern)**
+
+### Ejemplo de uso
+
+```{r str_match}
+  x <- c("HoLa", "esTo", "es", "UN", "eJemPLo", "dE", "str_match!")
+  
+  str_match(x, "[a-z]+")
+  str_match_all(x, "[a-z]+")
+```
+
+\pagebreaker
+
+## str_order
+
+### Descripción
+
+Ordena los vectores de carácteres. Se puede indicar si queremos que sea ascendente o descendente la ordenación, con el booleano *decreasing*; si queremos que los valores NA esten al final, *na_last*; el idioma con *locale*...
+
+### Uso
+
+**str_order(x, decreasing = FALSE, na_last = TRUE, locale = "en",numeric = FALSE, ...)**
+
+### Ejemplo de uso
+
+```{r str_order}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_order!")
+  
+  str_order(x, decreasing = FALSE, na_last = TRUE, locale = "es", numeric = FALSE)
+```
+
+\pagebreaker
+
+## str_pad
+
+### Descripción
+
+Rellena un string hasta alcanzar un tamaño dado (el tamaño nunca será menor que el del propio string). El relleno puede hacerse por la izquierda (*left*), derecha (*right*) o ambos (*both*); y se puede indicar también el carácter de relleno (por defecto " ").
+
+### Uso
+
+**str_pad(string, width, side = c("left", "right", "both"), pad = " ")**
+
+### Ejemplo de uso
+
+```{r str_pad}
+  str_pad("ejemplo1", 30, "both")
+  str_pad("ejemplo2", 30, "left", "-")
+```
+
+\pagebreaker
+
+## str_remove
+
+### Descripción
+
+Borra el patrón indicado de un determinado string.
+
+### Uso
+
+**str_remove(string, pattern)**
+
+### Ejemplo de uso
+
+```{r str_remove}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_remove!")
+  
+  str_remove(x, "[aeiou]")
+```
+
+\pagebreaker
+
+## str_replace
+
+### Descripción
+
+Reemplaza el patrón indicado de un determinado string por otro.
+
+### Uso
+
+**str_replace(string, pattern, replacement)**
+
+### Ejemplo de uso
+
+```{r str_replace}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_replace!")
+  
+  str_replace(x, "[aeiou]", "-")
+```
+
+\pagebreaker
+
+## str_replace_na
+
+### Descripción
+
+Reemplaza *NA* por el patrón que se indique (por defecto por *"NA"*)
+
+### Uso
+
+**str_replace_na(string, replacement = "NA")**
+
+### Ejemplo de uso
+
+```{r str_replace_na}
+  x <- c("Hola", "esto", NA, "es", "un", "ejemplo", "de", "str_replace_na!")
+  
+  str_replace_na(x)
+  str_replace_na(x, "-")
+```
+
+\pagebreaker
+
+## str_split
+
+### Descripción
+
+Divide un string en piezas. Se debe indicar el patrón que busca para separar el string y el número de piezas a devolver (si se introduce *Inf* devolverá todas las posibles).
+
+### Uso
+
+**str_split(string, pattern, n = Inf, simplify = FALSE)**
+
+### Ejemplo de uso
+
+```{r str_split}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_split!")
+  
+  str_split(x, "[aeiou]", Inf, simplify = FALSE)
+  str_split(x, "[aeiou]", 2, simplify = FALSE)
+```
+
+\pagebreaker
+
+## str_starts
+
+### Descripción
+
+Detecta la presencia o ausencia de un patrón al principio de un string. Según si el parámetro *negate* está en **TRUE** o **FALSE** devolverá los que no cumplen o los que sí respectivamente.
+
+### Uso
+
+**str_starts(string, pattern, negate = FALSE)**
+
+### Ejemplo de uso
+
+```{r str_starts}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_starts!")
+  
+  str_starts(x, "[aeiou]", negate = FALSE)
+  str_starts(x, "[aeiou]", negate = TRUE)
+```
+
+\pagebreaker
+
+## str_ends
+
+### Descripción
+
+Detecta la presencia o ausencia de un patrón al final de un string. Según si el parámetro *negate* está en **TRUE** o **FALSE** devolverá los que no cumplen o los que sí respectivamente.
+
+### Uso
+
+**str_ends(string, pattern, negate = FALSE)**
+
+### Ejemplo de uso
+
+```{r str_ends}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_ends!")
+  
+  str_ends(x, "[aeiou]", negate = FALSE)
+  str_ends(x, "[aeiou]", negate = TRUE)
+```
+
+\pagebreaker
+
+## str_sub
+
+### Descripción
+
+Extrae substrings de un vector de carácteres. Se introducen dos valores de tipo entero para indicar el inicio y el fin del substring (si no se introducen, por defecto se toma el inicio y final del string respectivamente).
+
+### Uso
+
+**str_sub(string, start = 1L, end = -1L)**
+
+### Ejemplo de uso
+
+```{r str_sub}
+  x <- c("Hola", "esto", "es", "un", "ejemplo", "de", "str_sub!")
+  
+  str_sub(x, 2)
+```
+
+\pagebreaker
+
+\pagebreaker
+
+# Bibliografía
+* [CRan Project](https://cran.r-project.org/web/packages/stringr/stringr.pdf)
+* [RDocumentation](https://www.rdocumentation.org/packages/stringr/versions/1.4.0)
