@@ -1,2 +1,2 @@
 # Stringr
-Explanation of the R library "Stringr" including the most popular functions.
+Explanation of the R library "Stringr" including its most popular functions.
